@@ -1,0 +1,132 @@
+# Built application files
+*.apk
+*.aab
+*.ap_
+*.aar
+/release
+/app/release
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java / Kotlin class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+/build
+build/
+/captures
+release/
+
+# Gradle
+.gradle/
+.gradle
+/gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+.gradletasknamecache
+
+# Kotlin
+.kotlin/
+*.hprof
+
+# Local configuration (SDK path, etc.)
+local.properties
+/local.properties
+
+# NDK / native builds
+.externalNativeBuild
+.cxx/
+obj/
+
+# Signing / secrets — never commit these
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+secrets.properties
+!debug.keystore
+
+# Log / report files
+*.log
+lint-results*.html
+lint-results*.xml
+/app/lint-report*
+reports/
+
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries/
+.idea/shelf/
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/deploymentTargetDropDown.xml
+.idea/deploymentTargetSelector.xml
+.idea/androidTestResultsUserPreferences.xml
+.idea/jarRepositories.xml
+.idea/render.experimental.xml
+.idea/sonarlint/
+.idea/httpRequests/
+.idea/*.local.xml
+
+# Eclipse / legacy
+.classpath
+.project
+.settings/
+.metadata/
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Android profiling / instrumentation
+*.trace
+/profile
+captures/
+.navigation/
+
+# Google services / Firebase (uncomment if the file holds private keys)
+# google-services.json
+# firebase-debug.log
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+com_crashlytics_export_strings.xml
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editor / temp files
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+*.orig
+*.rej
