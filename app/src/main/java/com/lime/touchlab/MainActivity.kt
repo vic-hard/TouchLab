@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity() {
 
         startButton.setOnClickListener { startSession() }
         finishButton.setOnClickListener { finishSession() }
+        finishButton.isEnabled = false
 
         renderStatus()
     }
@@ -123,6 +124,8 @@ class MainActivity : AppCompatActivity() {
         sessionActive = true
         tapArea.acceptingTouches = true
         tapArea.invalidate()
+        startButton.isEnabled = false
+        finishButton.isEnabled = true
         armNextTrial()
         renderStatus()
     }
@@ -134,12 +137,20 @@ class MainActivity : AppCompatActivity() {
         tapArea.invalidate()
         statusView.text = getString(R.string.status_closing)
 
+        // Обе кнопки заблокированы, пока идёт закрытие: до возврата из endSession
+        // барьер предыдущей сессии не сомкнулся, и начинать новую нельзя.
+        startButton.isEnabled = false
+        finishButton.isEnabled = false
+
         // endSession блокируется до подтверждения фиксации всех принятых попыток,
         // поэтому только с фонового потока.
         Thread({
             collector.endSession()
             lastTrialJson?.let { dumpLastTrial(it) }
-            main.post { renderStatus() }
+            main.post {
+                startButton.isEnabled = true
+                renderStatus()
+            }
         }, "session-finish").start()
     }
 

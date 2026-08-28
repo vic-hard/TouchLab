@@ -39,7 +39,6 @@ dependencies {
     implementation(project(":RawTouchCollector"))
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
 }

@@ -126,8 +126,10 @@ public class RawTouchCollector(appContext: Context) {
      * закрытие здесь было бы удобнее, но скрыло бы от приложения факт потери границы.
      */
     public fun startSession(sessionId: String, participantId: String) {
-        check(sessionState != SessionState.ACTIVE) {
-            "Сессия " + this.sessionId + " ещё активна: вызовите endSession()"
+        // Отвергаем ACTIVE и CLOSING, пока endSession не вернул управление
+        check(sessionState == SessionState.NONE) {
+            "Сессия " + this.sessionId + " ещё не закрыта (" + sessionState +
+                "): дождитесь возврата из endSession()"
         }
 
         this.sessionId = sessionId
