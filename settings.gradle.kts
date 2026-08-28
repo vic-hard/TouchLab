@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "TouchLab"
 include(":app")
- 
+include(":RawTouchCollector")

@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">TouchLab</string>
+
+    <string name="participant_hint">participant_id</string>
+    <string name="participant_default">test-participant</string>
+    <string name="start_session">Начать сессию</string>
+    <string name="finish_session">Завершить сессию</string>
+
+    <string name="session_active">идёт</string>
+    <string name="session_idle">не начата</string>
+    <string name="status_closing">закрытие сессии…</string>
+
+    <!-- сессия / подтверждено / принято / ошибок -->
+    <string name="status_format">Сессия: %1$s · подтверждено %2$d из %3$d · ошибок %4$d</string>
+
+    <!-- статус, длительность мс, текущих, historical, точность, метод sync, sampling, quantization -->
+    <string name="summary_format">%1$s · %2$.1f мс · отсчётов %3$d + history %4$d\n%5$s · sync %6$s · sampling %7$d нс · quant %8$d нс</string>
 </resources>

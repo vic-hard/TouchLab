@@ -79,6 +79,8 @@ reports/
 .idea/sonarlint/
 .idea/httpRequests/
 .idea/*.local.xml
+.idea/markdown.xml
+.idea/runConfigurations.xml
 
 # Eclipse / legacy
 .classpath
