@@ -132,3 +132,6 @@ $RECYCLE.BIN/
 *.tmp
 *.orig
 *.rej
+
+# Claude Code
+CLAUDE.md
