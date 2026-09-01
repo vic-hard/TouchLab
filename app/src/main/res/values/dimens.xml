@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="tap_area_min_margin">24dp</dimen>
+    <!-- Базовый отступ экрана; складывается с инсетами системных панелей. -->
+    <dimen name="screen_padding">12dp</dimen>
+    <!-- Высота шапки; фиксирована, чтобы область касания не двигалась. -->
+    <dimen name="header_height">300dp</dimen>
+</resources>

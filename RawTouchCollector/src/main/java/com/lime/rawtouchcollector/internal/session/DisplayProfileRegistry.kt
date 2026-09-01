@@ -2,6 +2,7 @@ package com.lime.rawtouchcollector.internal.session
 
 import android.os.SystemClock
 import com.lime.rawtouchcollector.DisplayProfile
+import java.util.UUID
 
 /**
  * Присвоение и переиспользование display_profile_id.
@@ -15,7 +16,6 @@ import com.lime.rawtouchcollector.DisplayProfile
  */
 internal class DisplayProfileRegistry {
 
-    private var counter = 0
     private var current: DisplayProfile? = null
 
     /** true, если профиль обновляли с момента последнего [markConsumed]. */
@@ -47,7 +47,7 @@ internal class DisplayProfileRegistry {
         }
 
         val profile = DisplayProfile(
-            displayProfileId = "dp-" + (++counter),
+            displayProfileId = UUID.randomUUID().toString(),
             windowWidthPx = windowWidthPx,
             windowHeightPx = windowHeightPx,
             displayModeWidthPx = displayModeWidthPx,
@@ -73,7 +73,7 @@ internal class DisplayProfileRegistry {
         if (existing != null) return existing
 
         val placeholder = DisplayProfile(
-            displayProfileId = "dp-unset",
+            displayProfileId = UUID.randomUUID().toString(),
             windowWidthPx = 0,
             windowHeightPx = 0,
             displayModeWidthPx = 0,
@@ -92,7 +92,6 @@ internal class DisplayProfileRegistry {
 
     fun reset() {
         current = null
-        counter = 0
         updatedSinceLastTrial = false
     }
 }

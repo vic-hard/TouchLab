@@ -1,72 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Минимальный хост для проверки коллектора: поле participant_id, управление сессией,
-  область TAP и техническая сводка. Полный интерфейс раздела 12 — блок 2.
 
-  Область касания отделена от краёв экрана: §5.1 требует безопасного отступа, иначе
-  системные краевые жесты перехватывают поток и попытки закрываются как CANCEL.
--->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/participant_id"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/participant_hint"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:text="@string/participant_default" />
+        android:layout_height="@dimen/header_height"
+        android:fillViewport="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/start_session"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/start_session" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/finish_session"
-            android:layout_width="0dp"
+        <EditText
+            android:id="@+id/participant_id"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:text="@string/finish_session" />
-    </LinearLayout>
+            android:hint="@string/participant_hint"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1" />
+    
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+    
+            <Button
+                android:id="@+id/start_session"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/start_session" />
+    
+            <Button
+                android:id="@+id/finish_session"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:text="@string/finish_session" />
+    
+            <Button
+                android:id="@+id/export_session"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:text="@string/export_session" />
+        </LinearLayout>
+    
+        <TextView
+            android:id="@+id/counters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="monospace"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="monospace"
-        android:textSize="13sp" />
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="monospace"
+            android:minLines="4"
+            android:textSize="11sp" />
+    
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="monospace"
+            android:minLines="2"
+            android:textColor="#B3261E"
+            android:textSize="11sp"
+            android:visibility="invisible" />
+    
+        <TextView
+            android:id="@+id/notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="monospace"
+            android:textSize="11sp"
+            android:visibility="gone" />
+    
+        <CheckBox
+            android:id="@+id/dump_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dump_toggle"
+            android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="monospace"
-        android:textSize="12sp" />
+        </LinearLayout>
+    </ScrollView>
 
     <com.lime.touchlab.TapAreaView
         android:id="@+id/tap_area"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1" />
 
 </LinearLayout>

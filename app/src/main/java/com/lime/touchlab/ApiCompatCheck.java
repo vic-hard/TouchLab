@@ -10,12 +10,13 @@ import com.lime.rawtouchcollector.PhoneSupportMode;
 import com.lime.rawtouchcollector.Precision;
 import com.lime.rawtouchcollector.RawTouchCollector;
 import com.lime.rawtouchcollector.ScenarioType;
+import com.lime.rawtouchcollector.SchemaFields;
+import com.lime.rawtouchcollector.SessionStatus;
 import com.lime.rawtouchcollector.SessionInfo;
 import com.lime.rawtouchcollector.SyncMethod;
 import com.lime.rawtouchcollector.TaskGroup;
 import com.lime.rawtouchcollector.TrialListener;
 import com.lime.rawtouchcollector.TrialSamples;
-import com.lime.rawtouchcollector.TrialSink;
 import com.lime.rawtouchcollector.TrialSnapshot;
 import com.lime.rawtouchcollector.TrialStatus;
 
@@ -167,5 +168,14 @@ final class ApiCompatCheck {
         String hand = PhoneSupportMode.HAND;
         String tap = TaskGroup.TAP;
         String scenario = ScenarioType.STAGE1_TAP;
+
+        // Имена полей схемы и состояния сессии — тоже часть публичного контракта:
+        // ими пользуется CSV-экспорт, и второй копии этих строк быть не должно.
+        String trialIdField = SchemaFields.TRIAL_ID;
+        String sessionIdField = SchemaFields.SESSION_ID;
+        String deviceIdField = SchemaFields.DEVICE_ID;
+        String statusField = SchemaFields.SESSION_STATUS;
+        String completed = SessionStatus.COMPLETED;
+        String incomplete = SessionStatus.INCOMPLETE;
     }
 }

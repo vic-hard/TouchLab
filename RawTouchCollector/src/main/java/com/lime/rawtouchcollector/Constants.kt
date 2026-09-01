@@ -46,6 +46,19 @@ public object SyncMethod {
 }
 
 /** Режим удержания телефона. Этап 1 — только HAND. */
+/**
+ * Состояние сессии в экспорте.
+ *
+ * `INCOMPLETE` ставится приложением на холодном старте сессии, оставшейся `ACTIVE`:
+ * процесс был убит, а молча продолжать такую сессию запрещено. У неё
+ * `ended_at_wall_clock_ms` остаётся `null` — единственный разрешённый критерием 18 случай.
+ */
+public object SessionStatus {
+    public const val ACTIVE: String = "ACTIVE"
+    public const val COMPLETED: String = "COMPLETED"
+    public const val INCOMPLETE: String = "INCOMPLETE"
+}
+
 public object PhoneSupportMode {
     public const val HAND: String = "HAND"
 }

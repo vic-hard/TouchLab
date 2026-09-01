@@ -6,7 +6,7 @@
 
 - `minSdk 31`, `compileSdk 37`, Kotlin, `explicitApi()`
 - Зависимости: только `androidx.annotation`. Транзитивных в потребителя не приносит.
-- Артефакт: `rawtouchcollector-1.0.0-release.aar`
+- Артефакт: `rawtouchcollector-1.1.0-release.aar`
 
 ---
 
@@ -45,7 +45,15 @@ fun awaitQuiescence(timeoutMs: Long): Boolean       // блокирующий, �
 fun reset()
 fun clearBuffer()
 fun shutdown()
+
+// словарь схемы — им пользуется CSV-экспорт приложения
+object SchemaFields   // имена всех полей схемы
+object SessionStatus  // ACTIVE / COMPLETED / INCOMPLETE
 ```
+
+`SchemaFields` публичен намеренно: имена полей должны существовать в одном месте, иначе
+CSV-экспорт заводит вторую копию и схема начинает расходиться сама с собой. Из Java
+доступен как `SchemaFields.TRIAL_ID`.
 
 ### Порядок вызовов
 
@@ -67,7 +75,7 @@ endSession()                                 // ждёт фиксации все
 | | `TrialListener` | `TrialSink` |
 |---|---|---|
 | Отдаёт | JSON-строку | `TrialSnapshot` |
-| Для кого | будущий Unity через JNI | слой хранения, блок 3 |
+| Для кого | будущий Unity через JNI | слой хранения на Room |
 | Почему | §4.1 запрещает передавать через JNI Kotlin data class | Room не должен парсить JSON обратно |
 
 `TrialSink.persist()` обязан вернуть `true` только после фактической фиксации — транзакции или эквивалентной принудительной записи. `false` и исключение считаются ошибкой записи, попытка не будет подтверждена.

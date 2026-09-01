@@ -1,5 +1,6 @@
 package com.lime.rawtouchcollector.internal.json
 
+import com.lime.rawtouchcollector.SchemaFields
 import android.util.JsonWriter
 import com.lime.rawtouchcollector.TrialSnapshot
 import java.io.StringWriter

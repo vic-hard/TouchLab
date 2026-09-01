@@ -13,6 +13,7 @@ import com.lime.rawtouchcollector.internal.pipeline.PersistWorker
 import com.lime.rawtouchcollector.internal.session.DisplayProfileRegistry
 import com.lime.rawtouchcollector.internal.time.ClockSyncCapture
 import com.lime.rawtouchcollector.internal.time.TimeSource
+import java.util.UUID
 import java.util.concurrent.atomic.AtomicLong
 
 /**
@@ -76,7 +77,6 @@ public class RawTouchCollector(appContext: Context) {
     private var sessionStartedAtWallClockMs: Long = 0
     private var sessionEndedAtWallClockMs: Long? = null
     private var sessionClockSync: ClockSyncPoint? = null
-    private var clockSyncCounter = 0
 
     // --- состояние попытки ---
     private var trialState = TrialState.IDLE
@@ -581,7 +581,7 @@ public class RawTouchCollector(appContext: Context) {
         if (buffer.count > 0) buffer.eventTimeUptimeNsAt(buffer.count - 1) else downEventTimeUptimeNs
 
     private fun newClockSync(): ClockSyncPoint {
-        val point = ClockSyncCapture.capture("cs-" + (++clockSyncCounter), sessionId)
+        val point = ClockSyncCapture.capture(UUID.randomUUID().toString(), sessionId)
         if (point.syncMethod == SyncMethod.MS_PLAIN) {
             clockSyncFallbacks.incrementAndGet()
             listener?.onCollectorError(

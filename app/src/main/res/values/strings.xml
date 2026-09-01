@@ -2,17 +2,34 @@
     <string name="app_name">TouchLab</string>
 
     <string name="participant_hint">participant_id</string>
-    <string name="participant_default">test-participant</string>
-    <string name="start_session">Начать сессию</string>
-    <string name="finish_session">Завершить сессию</string>
+    <string name="participant_required">Укажите participant_id</string>
+    <string name="start_session">Начать</string>
+    <string name="finish_session">Завершить</string>
+    <string name="export_session">Экспорт ZIP</string>
+    <string name="share_title">Передать архив сессии</string>
+    <string name="dump_toggle">Диагностический дамп попытки в JSON</string>
 
-    <string name="session_active">идёт</string>
-    <string name="session_idle">не начата</string>
-    <string name="status_closing">закрытие сессии…</string>
+    <string name="state_idle">не начата</string>
+    <string name="state_active">идёт</string>
+    <string name="state_closing">закрывается…</string>
+    <string name="state_closed">зафиксирована</string>
 
-    <!-- сессия / подтверждено / принято / ошибок -->
-    <string name="status_format">Сессия: %1$s · подтверждено %2$d из %3$d · ошибок %4$d</string>
+    <!-- состояние · завершено · подтверждено -->
+    <string name="counters_format">Сессия: %1$s · завершено %2$d · подтверждено %3$d</string>
 
-    <!-- статус, длительность мс, текущих, historical, точность, метод sync, sampling, quantization -->
-    <string name="summary_format">%1$s · %2$.1f мс · отсчётов %3$d + history %4$d\n%5$s · sync %6$s · sampling %7$d нс · quant %8$d нс</string>
+    <string name="summary_empty">Попыток ещё не было</string>
+
+    <!--
+      Техсводка: номер, статус, длительность, текущие отсчёты, historical samples,
+      минимум/максимум touchMajor/touchMinor и size/pressure, точности и синхронизация.
+    -->
+    <string name="summary_format">Попытка %1$d · %2$s · %3$.1f мс · отсчётов %4$d + history %5$d\ntouch_major %6$.2f–%7$.2f (%8$d) · touch_minor %9$.2f–%10$.2f (%11$d)\nsize %12$.3f–%13$.3f (%14$d) · pressure %15$.3f–%16$.3f (%17$d)\nevent %18$s · receipt %19$s · sync %20$s %21$d/%22$d нс</string>
+
+    <!-- переполнений · отказов записи · код · сообщение -->
+    <string name="error_format">Ошибки: переполнений %1$d · отказов записи %2$d\nкод %3$d: %4$s</string>
+
+    <string name="notice_incomplete">Сессий помечено незавершёнными после аварийного рестарта: %1$d</string>
+    <string name="notice_export_running">Архив собирается…</string>
+    <string name="notice_export_ready">Архив готов: %1$s</string>
+    <string name="notice_export_failed">Экспорт не удался: %1$s</string>
 </resources>

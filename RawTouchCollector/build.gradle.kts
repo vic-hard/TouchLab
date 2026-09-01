@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
 }
 
-private val aarVersion = "1.0.0"
+private val aarVersion = "1.1.0"
 
 android {
     namespace = "com.lime.rawtouchcollector"
