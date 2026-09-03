@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.lime.rawtouchcollector.SchemaFields
 
 /**
  * Доступ к локальному хранилищу.
@@ -36,11 +37,47 @@ interface TouchLabDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insertSamples(samples: List<TouchSampleEntity>)
 
+    /**
+     * Закрыть сессию: календарное время завершения, статус и счётчики.
+     *
+     * Имена колонок собираются из [SchemaFields], а не пишутся литералами: SQL — третье
+     * место после сущности и CSV, где эти имена обязаны совпадать.
+     */
     @Query(
-        "UPDATE sessions SET ended_at_wall_clock_ms = :endedAtMs, session_status = :status " +
-            "WHERE session_id = :sessionId",
+        "UPDATE sessions SET " +
+            SchemaFields.ENDED_AT_WALL_CLOCK_MS + " = :endedAtMs, " +
+            SchemaFields.SESSION_STATUS + " = :status, " +
+            SchemaFields.TRIALS_ACCEPTED + " = :accepted, " +
+            SchemaFields.TRIALS_CONFIRMED + " = :confirmed, " +
+            SchemaFields.QUEUE_OVERFLOWS + " = :overflows, " +
+            SchemaFields.WRITE_FAILURES + " = :writeFailures, " +
+            SchemaFields.EVENTS_BEFORE_START + " = :beforeStart, " +
+            SchemaFields.EVENTS_AFTER_END + " = :afterEnd, " +
+            SchemaFields.EVENTS_AFTER_SESSION_CLOSE + " = :afterSessionClose, " +
+            SchemaFields.EVENTS_DISCARDED_AFTER_MULTITOUCH + " = :discardedAfterMultitouch, " +
+            SchemaFields.IMPLICIT_CANCELS + " = :implicitCancels, " +
+            SchemaFields.MULTITOUCH_ERRORS + " = :multitouchErrors, " +
+            SchemaFields.TRIALS_WITH_STALE_DISPLAY_PROFILE + " = :staleDisplayProfile, " +
+            SchemaFields.CLOCK_SYNC_FALLBACKS + " = :clockSyncFallbacks " +
+            "WHERE " + SchemaFields.SESSION_ID + " = :sessionId",
     )
-    fun closeSession(sessionId: String, endedAtMs: Long, status: String): Int
+    fun closeSession(
+        sessionId: String,
+        endedAtMs: Long,
+        status: String,
+        accepted: Long,
+        confirmed: Long,
+        overflows: Long,
+        writeFailures: Long,
+        beforeStart: Long,
+        afterEnd: Long,
+        afterSessionClose: Long,
+        discardedAfterMultitouch: Long,
+        implicitCancels: Long,
+        multitouchErrors: Long,
+        staleDisplayProfile: Long,
+        clockSyncFallbacks: Long,
+    ): Int
 
     /**
      * Пометить сессии, оставшиеся активными от прошлого запуска.

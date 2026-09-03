@@ -56,7 +56,7 @@ gradlew.bat clean :RawTouchCollector:assembleRelease :app:assembleRelease
 Задаётся одной строкой в `RawTouchCollector/build.gradle.kts`:
 
 ```kotlin
-private val aarVersion = "1.1.0"
+private val aarVersion = "1.2.0"
 ```
 
 Оттуда она попадает в три места сразу: имя файла AAR, `BuildConfig.AAR_VERSION` и поле `aar_version` в каждой записанной попытке. Менять только здесь.
@@ -67,7 +67,7 @@ private val aarVersion = "1.1.0"
 
 ```kotlin
 dependencies {
-    implementation(files("libs/rawtouchcollector-1.1.0-release.aar"))
+    implementation(files("libs/rawtouchcollector-1.2.0-release.aar"))
 }
 ```
 

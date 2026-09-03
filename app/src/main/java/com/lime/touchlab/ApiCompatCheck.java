@@ -72,6 +72,15 @@ final class ApiCompatCheck {
         long confirmed = diagnostics.getConfirmedTrials();
         long overflows = diagnostics.getQueueOverflows();
         long pending = diagnostics.getPendingTrials();
+        long writeFailures = diagnostics.getWriteFailures();
+        long beforeStart = diagnostics.getEventsBeforeStart();
+        long afterEnd = diagnostics.getEventsAfterEnd();
+        long afterSessionClose = diagnostics.getEventsAfterSessionClose();
+        long discardedAfterMultitouch = diagnostics.getEventsDiscardedAfterMultitouch();
+        long implicitCancels = diagnostics.getImplicitCancels();
+        long multitouchErrors = diagnostics.getMultitouchErrors();
+        long staleDisplayProfile = diagnostics.getTrialsWithStaleDisplayProfile();
+        long clockSyncFallbacks = diagnostics.getClockSyncFallbacks();
 
         SessionInfo session = collector.currentSessionInfo();
         ClockSyncPoint sessionSync = collector.sessionClockSync();
@@ -177,5 +186,18 @@ final class ApiCompatCheck {
         String statusField = SchemaFields.SESSION_STATUS;
         String completed = SessionStatus.COMPLETED;
         String incomplete = SessionStatus.INCOMPLETE;
+
+        String acceptedField = SchemaFields.TRIALS_ACCEPTED;
+        String confirmedField = SchemaFields.TRIALS_CONFIRMED;
+        String overflowsField = SchemaFields.QUEUE_OVERFLOWS;
+        String failuresField = SchemaFields.WRITE_FAILURES;
+        String beforeStartField = SchemaFields.EVENTS_BEFORE_START;
+        String afterEndField = SchemaFields.EVENTS_AFTER_END;
+        String afterCloseField = SchemaFields.EVENTS_AFTER_SESSION_CLOSE;
+        String discardedField = SchemaFields.EVENTS_DISCARDED_AFTER_MULTITOUCH;
+        String cancelsField = SchemaFields.IMPLICIT_CANCELS;
+        String multitouchField = SchemaFields.MULTITOUCH_ERRORS;
+        String staleProfileField = SchemaFields.TRIALS_WITH_STALE_DISPLAY_PROFILE;
+        String syncFallbacksField = SchemaFields.CLOCK_SYNC_FALLBACKS;
     }
 }

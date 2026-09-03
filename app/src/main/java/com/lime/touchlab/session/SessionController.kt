@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.MotionEvent
+import com.lime.rawtouchcollector.Diagnostics
 import com.lime.rawtouchcollector.RawTouchCollector
 import com.lime.rawtouchcollector.ScenarioType
 import com.lime.rawtouchcollector.TaskGroup
@@ -11,6 +12,7 @@ import com.lime.rawtouchcollector.TrialListener
 import com.lime.rawtouchcollector.TrialSink
 import com.lime.rawtouchcollector.TrialSnapshot
 import com.lime.touchlab.export.SessionExporter
+import com.lime.touchlab.storage.SessionCounters
 import com.lime.touchlab.storage.TrialRepository
 import java.io.File
 import java.util.UUID
@@ -74,11 +76,14 @@ class SessionController(
     private val errorOccurrences = AtomicInteger(0)
 
     /**
-     * Значения счётчиков коллектора на момент старта сессии.
-     * `Diagnostics` копит за всё время жизни коллектора.
+     * Снимок счётчиков коллектора на момент старта сессии.
+     *
+     * `Diagnostics` копит за всё время жизни коллектора, а коллектор переживает и экран,
+     * и предыдущие сессии. Всё, что показывается оператору и уезжает в архив, — разность
+     * с этим снимком, то есть «за эту сессию».
      */
     @Volatile
-    private var baseline = BaselineCounters(0, 0, 0, 0)
+    private var baseline: Diagnostics = collector.getDiagnostics()
 
     init {
         collector.setTrialListener(this)
@@ -136,13 +141,7 @@ class SessionController(
         exportFile = null
         exportMessage = null
 
-        val d = collector.getDiagnostics()
-        baseline = BaselineCounters(
-            accepted = d.acceptedTrials,
-            confirmed = d.confirmedTrials,
-            overflows = d.queueOverflows,
-            failures = d.writeFailures,
-        )
+        baseline = collector.getDiagnostics()
 
         collector.startSession(newSessionId, participantId)
 
@@ -175,8 +174,12 @@ class SessionController(
 
             val info = collector.currentSessionInfo()
             val endedAt = info?.endedAtWallClockMs ?: System.currentTimeMillis()
+            // Счётчики снимаются здесь, а не раньше: endSession уже вернулся, барьер
+            // сомкнут, и все принятые попытки прошли через persist(). Снимок до барьера
+            // занизил бы trials_confirmed.
+            val counters = SessionCounters.between(baseline, collector.getDiagnostics())
             if (closingSessionId != null) {
-                val closed = repository.closeSession(closingSessionId, endedAt)
+                val closed = repository.closeSession(closingSessionId, endedAt, counters)
                 if (!closed) {
                     raiseError(
                         ERROR_SESSION_NOT_CLOSED,
@@ -359,12 +362,11 @@ class SessionController(
     // ------------------------------------------------------------------
 
     private fun snapshot(): SessionUiState {
-        val d = collector.getDiagnostics()
-        val base = baseline
-        val accepted = d.acceptedTrials - base.accepted
-        val confirmed = d.confirmedTrials - base.confirmed
-        val overflows = d.queueOverflows - base.overflows
-        val failures = d.writeFailures - base.failures
+        val c = SessionCounters.between(baseline, collector.getDiagnostics())
+        val accepted = c.trialsAccepted
+        val confirmed = c.trialsConfirmed
+        val overflows = c.queueOverflows
+        val failures = c.writeFailures
         return SessionUiState(
             state = state,
             participantId = participantId,

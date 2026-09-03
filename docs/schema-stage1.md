@@ -1,8 +1,8 @@
 # Схема данных этапа 1
 
-`schema_version = stage1-1.0.0`
+`schema_version = stage1-1.1.0`
 
-Единственный источник имён полей в коде — `internal/json/SchemaFields.kt`. CSV-экспорт и `validate_export.py` обязаны использовать те же имена.
+Единственный источник имён полей в коде — `SchemaFields.kt` (публичная часть API библиотеки). Состав и порядок колонок каждого CSV объявлен один раз в `app/.../export/ExportSchema.kt`: оттуда печатается шапка файла и оттуда же собирается `schema.json` внутри архива. CSV-экспорт и `validate_export.py` обязаны использовать те же имена.
 
 Обозначения обязательности: **О** — всегда присутствует; **Н** — может быть `null`, значение `null` осмысленно и означает «неприменимо».
 
@@ -52,7 +52,33 @@
 | `started_at_wall_clock_ms` | long | мс от эпохи Unix | О | `System.currentTimeMillis()`, хранится отдельно от uptime |
 | `ended_at_wall_clock_ms` | long | мс от эпохи Unix | Н | `null` только у незавершённой сессии, критерий 18 |
 | `phone_support_mode` | string | — | О | этап 1 — всегда `HAND` |
-| `schema_version` | string | — | О | |
+| `session_status` | string | — | О | `COMPLETED` / `INCOMPLETE` / `ACTIVE` |
+| `schema_version` | string | — | О | версия, под которой записаны данные этой сессии |
+
+### Счётчики сессии, §9.5 и критерий 29
+
+Двенадцать колонок в той же строке сессии. Снимаются один раз, после возврата из `endSession()`: барьер к этому моменту сомкнут, и все принятые попытки прошли через `persist()`. Снимок раньше барьера занизил бы `trials_confirmed` без всякой ошибки.
+
+Значения — разность с состоянием счётчиков на старте сессии: `Diagnostics` копит за всё время жизни коллектора, а коллектор переживает и экран, и предыдущие сессии.
+
+`null` здесь означает **«неизвестно: сессия не была закрыта штатно»** — это не то же самое, что «неприменимо» у остальных полей схемы. Подставлять нули запрещено: это было бы заявлением, что потерь не было, а это как раз неизвестно.
+
+| Поле | Тип | Обяз. | Норма | Смысл |
+|---|---|---|---|---|
+| `trials_accepted` | long | Н | — | принято в очередь фоновой обработки |
+| `trials_confirmed` | long | Н | `= accepted − write_failures` | подтверждено хранилищем; **равно числу строк в `trials.csv`** |
+| `queue_overflows` | long | Н | 0 | потеряно из-за переполнения очереди |
+| `write_failures` | long | Н | 0 | хранилище не смогло записать |
+| `events_before_start` | long | Н | 0 | события до `ACTION_DOWN` попытки |
+| `events_after_end` | long | Н | 0 | события после терминального |
+| `events_after_session_close` | long | Н | 0 | события после закрытия сессии |
+| `events_discarded_after_multitouch` | long | Н | — | события прерванного жеста; ненулевое — норма, §8 |
+| `implicit_cancels` | long | Н | 0 | `startTrial` поверх незакрытой попытки |
+| `multitouch_errors` | long | Н | — | попытки, прерванные вторым пальцем |
+| `trials_with_stale_display_profile` | long | Н | 0 | профиль не обновлялся перед попыткой |
+| `clock_sync_fallbacks` | long | Н | 0 | точки, огрублённые до `MS_PLAIN` |
+
+Попытка, отсутствующая в `trials.csv`, обязана быть объяснена `queue_overflows` или `write_failures`. Сохранённой без подтверждения она не показывается нигде: счётчик подтверждённых растёт только по `true` от `persist()`.
 
 ## 4. Точка синхронизации — `clock_sync`
 
@@ -153,18 +179,18 @@ uptime_measurement_precision == "NANOSECONDS" ⟹ sdk_int >= 35
 
 ## 7. Диагностика
 
-Не часть экспорта данных, но обязана попасть в отчёт: молчаливая потеря не допускается.
+Счётчики `Diagnostics` библиотеки — источник колонок счётчиков `sessions` (раздел 3). До версии схемы `stage1-1.1.0` они существовали только на экране и умирали вместе с процессом; §11.1 требует от валидатора проверять «наличие счётчиков ошибок очереди и записи, если такие ошибки происходили», а проверять было нечего.
 
-| Счётчик | Норма | Смысл |
-|---|---|---|
-| `acceptedTrials` | — | принято в очередь |
-| `confirmedTrials` | `= accepted` | подтверждено приёмником |
-| `queueOverflows` | 0 | потеряно из-за переполнения очереди |
-| `writeFailures` | 0 | приёмник не смог записать |
-| `eventsBeforeStart` | 0 | события до `ACTION_DOWN` попытки |
-| `eventsAfterEnd` | 0 | события после терминального |
-| `eventsAfterSessionClose` | 0 | события после закрытия сессии |
-| `implicitCancels` | 0 | `startTrial` поверх незакрытой попытки |
-| `multitouchErrors` | — | попытки, прерванные вторым пальцем |
-| `trialsWithStaleDisplayProfile` | 0 | профиль не обновлялся перед попыткой |
-| `clockSyncFallbacks` | 0 | точки, огрублённые до `MS_PLAIN` |
+Соответствие имён: `acceptedTrials` → `trials_accepted`, `confirmedTrials` → `trials_confirmed`, `queueOverflows` → `queue_overflows`, `writeFailures` → `write_failures`, `eventsBeforeStart` → `events_before_start`, `eventsAfterEnd` → `events_after_end`, `eventsAfterSessionClose` → `events_after_session_close`, `eventsDiscardedAfterMultitouch` → `events_discarded_after_multitouch`, `implicitCancels` → `implicit_cancels`, `multitouchErrors` → `multitouch_errors`, `trialsWithStaleDisplayProfile` → `trials_with_stale_display_profile`, `clockSyncFallbacks` → `clock_sync_fallbacks`.
+
+`Diagnostics` считает за всё время жизни коллектора; в архив идёт разность за сессию.
+
+## 8. Состав архива и `schema.json`
+
+Шесть CSV, `schema.json` и `README.md`. Состав и порядок колонок каждого CSV объявлены один раз в `ExportSchema.kt`; шапка печатается оттуда, а строка данных другой длины вызывает исключение и роняет экспорт — испорченный архив хуже отсутствующего.
+
+`schema.json` описывает каждую колонку каждого файла: имя, тип, единицу измерения, допустимость `null` и смысл. Там же — версия схемы, смысл пяти идентификаторов и правила, которые из состава колонок не выводятся (соответствие `timestamp_precision` и `sync_method` уровню API, равенство `trials_confirmed` числу строк `trials.csv`, кодировка).
+
+### Две версии схемы в одном архиве
+
+`schema.json` описывает **структуру архива**, а колонка `schema_version` в `sessions.csv` и `trials.csv` — **версию, под которой записаны данные**. У сессии, записанной прежней сборкой и переэкспортированной после миграции, они законно расходятся: структура `stage1-1.1.0`, данные `stage1-1.0.0`. Валидатор обязан различать эти две величины и не считать расхождение ошибкой.

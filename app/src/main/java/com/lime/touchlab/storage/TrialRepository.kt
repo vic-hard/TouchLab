@@ -113,15 +113,35 @@ class TrialRepository(private val db: TouchLabDatabase) : TrialSink {
     }
 
     /**
-     * Закрыть сессию календарным временем завершения.
+     * Закрыть сессию: календарное время завершения, статус и счётчики.
      *
      * Вызывать только после возврата из `endSession()` коллектора: до этого барьер не
-     * сомкнут, и часть попыток может быть ещё не зафиксирована.
+     * сомкнут, часть попыток может быть ещё не зафиксирована.
      */
-    fun closeSession(sessionId: String, endedAtWallClockMs: Long): Boolean = try {
+    fun closeSession(
+        sessionId: String,
+        endedAtWallClockMs: Long,
+        counters: SessionCounters,
+    ): Boolean = try {
         db.runInTransaction<Boolean> {
             ensureSessionRow()
-            dao.closeSession(sessionId, endedAtWallClockMs, SessionStatus.COMPLETED) == 1
+            dao.closeSession(
+                sessionId = sessionId,
+                endedAtMs = endedAtWallClockMs,
+                status = SessionStatus.COMPLETED,
+                accepted = counters.trialsAccepted,
+                confirmed = counters.trialsConfirmed,
+                overflows = counters.queueOverflows,
+                writeFailures = counters.writeFailures,
+                beforeStart = counters.eventsBeforeStart,
+                afterEnd = counters.eventsAfterEnd,
+                afterSessionClose = counters.eventsAfterSessionClose,
+                discardedAfterMultitouch = counters.eventsDiscardedAfterMultitouch,
+                implicitCancels = counters.implicitCancels,
+                multitouchErrors = counters.multitouchErrors,
+                staleDisplayProfile = counters.trialsWithStaleDisplayProfile,
+                clockSyncFallbacks = counters.clockSyncFallbacks,
+            ) == 1
         }
     } catch (e: RuntimeException) {
         Log.e(TAG, "не удалось закрыть сессию " + sessionId, e)

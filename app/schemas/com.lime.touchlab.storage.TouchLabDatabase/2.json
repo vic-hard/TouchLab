@@ -1,0 +1,631 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "e5ea09a1f6ab9ae6ae93b9033e0d8d3f",
+    "entities": [
+      {
+        "tableName": "devices",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`device_id` TEXT NOT NULL, `manufacturer` TEXT NOT NULL, `model` TEXT NOT NULL, `android_version` TEXT NOT NULL, `sdk_int` INTEGER NOT NULL, `app_version` TEXT NOT NULL, `aar_version` TEXT NOT NULL, `density_dpi` INTEGER NOT NULL, PRIMARY KEY(`device_id`))",
+        "fields": [
+          {
+            "fieldPath": "deviceId",
+            "columnName": "device_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "manufacturer",
+            "columnName": "manufacturer",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "model",
+            "columnName": "model",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "androidVersion",
+            "columnName": "android_version",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sdkInt",
+            "columnName": "sdk_int",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appVersion",
+            "columnName": "app_version",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "aarVersion",
+            "columnName": "aar_version",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "densityDpi",
+            "columnName": "density_dpi",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "device_id"
+          ]
+        }
+      },
+      {
+        "tableName": "display_profiles",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`display_profile_id` TEXT NOT NULL, `window_width_px` INTEGER NOT NULL, `window_height_px` INTEGER NOT NULL, `display_mode_width_px` INTEGER NOT NULL, `display_mode_height_px` INTEGER NOT NULL, `display_refresh_rate_hz` REAL NOT NULL, `density_dpi` INTEGER NOT NULL, `captured_at_elapsed_ns` INTEGER NOT NULL, PRIMARY KEY(`display_profile_id`))",
+        "fields": [
+          {
+            "fieldPath": "displayProfileId",
+            "columnName": "display_profile_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windowWidthPx",
+            "columnName": "window_width_px",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windowHeightPx",
+            "columnName": "window_height_px",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayModeWidthPx",
+            "columnName": "display_mode_width_px",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayModeHeightPx",
+            "columnName": "display_mode_height_px",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayRefreshRateHz",
+            "columnName": "display_refresh_rate_hz",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "densityDpi",
+            "columnName": "density_dpi",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "capturedAtElapsedNs",
+            "columnName": "captured_at_elapsed_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "display_profile_id"
+          ]
+        }
+      },
+      {
+        "tableName": "sessions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`session_id` TEXT NOT NULL, `device_id` TEXT NOT NULL, `participant_id` TEXT NOT NULL, `started_at_wall_clock_ms` INTEGER NOT NULL, `ended_at_wall_clock_ms` INTEGER, `phone_support_mode` TEXT NOT NULL, `clock_sync_id` TEXT, `session_status` TEXT NOT NULL, `schema_version` TEXT NOT NULL, `trials_accepted` INTEGER, `trials_confirmed` INTEGER, `queue_overflows` INTEGER, `write_failures` INTEGER, `events_before_start` INTEGER, `events_after_end` INTEGER, `events_after_session_close` INTEGER, `events_discarded_after_multitouch` INTEGER, `implicit_cancels` INTEGER, `multitouch_errors` INTEGER, `trials_with_stale_display_profile` INTEGER, `clock_sync_fallbacks` INTEGER, PRIMARY KEY(`session_id`))",
+        "fields": [
+          {
+            "fieldPath": "sessionId",
+            "columnName": "session_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deviceId",
+            "columnName": "device_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "participantId",
+            "columnName": "participant_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startedAtWallClockMs",
+            "columnName": "started_at_wall_clock_ms",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endedAtWallClockMs",
+            "columnName": "ended_at_wall_clock_ms",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "phoneSupportMode",
+            "columnName": "phone_support_mode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clockSyncId",
+            "columnName": "clock_sync_id",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sessionStatus",
+            "columnName": "session_status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schemaVersion",
+            "columnName": "schema_version",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trialsAccepted",
+            "columnName": "trials_accepted",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "trialsConfirmed",
+            "columnName": "trials_confirmed",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "queueOverflows",
+            "columnName": "queue_overflows",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "writeFailures",
+            "columnName": "write_failures",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "eventsBeforeStart",
+            "columnName": "events_before_start",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "eventsAfterEnd",
+            "columnName": "events_after_end",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "eventsAfterSessionClose",
+            "columnName": "events_after_session_close",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "eventsDiscardedAfterMultitouch",
+            "columnName": "events_discarded_after_multitouch",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "implicitCancels",
+            "columnName": "implicit_cancels",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "multitouchErrors",
+            "columnName": "multitouch_errors",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "trialsWithStaleDisplayProfile",
+            "columnName": "trials_with_stale_display_profile",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "clockSyncFallbacks",
+            "columnName": "clock_sync_fallbacks",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "session_id"
+          ]
+        }
+      },
+      {
+        "tableName": "clock_sync",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`clock_sync_id` TEXT NOT NULL, `session_id` TEXT NOT NULL, `uptime_timestamp_ns` INTEGER NOT NULL, `elapsed_realtime_timestamp_ns` INTEGER NOT NULL, `offset_ns` INTEGER NOT NULL, `sync_sampling_uncertainty_ns` INTEGER NOT NULL, `sync_quantization_uncertainty_ns` INTEGER NOT NULL, `sync_method` TEXT NOT NULL, `uptime_measurement_precision` TEXT NOT NULL, PRIMARY KEY(`clock_sync_id`))",
+        "fields": [
+          {
+            "fieldPath": "clockSyncId",
+            "columnName": "clock_sync_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "session_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uptimeTimestampNs",
+            "columnName": "uptime_timestamp_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "elapsedRealtimeTimestampNs",
+            "columnName": "elapsed_realtime_timestamp_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "offsetNs",
+            "columnName": "offset_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "samplingUncertaintyNs",
+            "columnName": "sync_sampling_uncertainty_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantizationUncertaintyNs",
+            "columnName": "sync_quantization_uncertainty_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncMethod",
+            "columnName": "sync_method",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uptimeMeasurementPrecision",
+            "columnName": "uptime_measurement_precision",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "clock_sync_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_clock_sync_session_id",
+            "unique": false,
+            "columnNames": [
+              "session_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_clock_sync_session_id` ON `${TABLE_NAME}` (`session_id`)"
+          }
+        ]
+      },
+      {
+        "tableName": "trials",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trial_id` TEXT NOT NULL, `session_id` TEXT NOT NULL, `participant_id` TEXT NOT NULL, `trial_index` INTEGER NOT NULL, `task_group` TEXT NOT NULL, `scenario_type` TEXT NOT NULL, `display_profile_id` TEXT NOT NULL, `clock_sync_id` TEXT NOT NULL, `touch_down_common_timestamp_ns` INTEGER NOT NULL, `touch_up_common_timestamp_ns` INTEGER NOT NULL, `contact_duration_ns` INTEGER NOT NULL, `completion_status` TEXT NOT NULL, `current_sample_count` INTEGER NOT NULL, `historical_sample_count` INTEGER NOT NULL, `second_pointer_observed` INTEGER NOT NULL, `timestamp_precision` TEXT NOT NULL, `app_receipt_uptime_precision` TEXT NOT NULL, `schema_version` TEXT NOT NULL, PRIMARY KEY(`trial_id`))",
+        "fields": [
+          {
+            "fieldPath": "trialId",
+            "columnName": "trial_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sessionId",
+            "columnName": "session_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "participantId",
+            "columnName": "participant_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trialIndex",
+            "columnName": "trial_index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "taskGroup",
+            "columnName": "task_group",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scenarioType",
+            "columnName": "scenario_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayProfileId",
+            "columnName": "display_profile_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clockSyncId",
+            "columnName": "clock_sync_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "touchDownCommonTimestampNs",
+            "columnName": "touch_down_common_timestamp_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "touchUpCommonTimestampNs",
+            "columnName": "touch_up_common_timestamp_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contactDurationNs",
+            "columnName": "contact_duration_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "completionStatus",
+            "columnName": "completion_status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentSampleCount",
+            "columnName": "current_sample_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "historicalSampleCount",
+            "columnName": "historical_sample_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secondPointerObserved",
+            "columnName": "second_pointer_observed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestampPrecision",
+            "columnName": "timestamp_precision",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appReceiptUptimePrecision",
+            "columnName": "app_receipt_uptime_precision",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schemaVersion",
+            "columnName": "schema_version",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "trial_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_trials_session_id",
+            "unique": false,
+            "columnNames": [
+              "session_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_trials_session_id` ON `${TABLE_NAME}` (`session_id`)"
+          }
+        ]
+      },
+      {
+        "tableName": "touch_samples",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`row_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trial_id` TEXT NOT NULL, `sample_index` INTEGER NOT NULL, `event_action` INTEGER NOT NULL, `pointer_id` INTEGER NOT NULL, `pointer_index` INTEGER NOT NULL, `action_index` INTEGER NOT NULL, `pointer_count` INTEGER NOT NULL, `touch_event_time_uptime_ms` INTEGER NOT NULL, `touch_event_time_uptime_ns` INTEGER NOT NULL, `common_timestamp_ns` INTEGER NOT NULL, `app_receipt_time_uptime_ns` INTEGER NOT NULL, `app_receipt_time_elapsed_ns` INTEGER NOT NULL, `relative_time_ms` REAL NOT NULL, `x` REAL NOT NULL, `y` REAL NOT NULL, `touch_major` REAL NOT NULL, `touch_minor` REAL NOT NULL, `size` REAL NOT NULL, `pressure` REAL NOT NULL, `orientation` REAL NOT NULL, `tool_type` INTEGER NOT NULL, `is_historical` INTEGER NOT NULL, `history_index` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "rowId",
+            "columnName": "row_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trialId",
+            "columnName": "trial_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sampleIndex",
+            "columnName": "sample_index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eventAction",
+            "columnName": "event_action",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pointerId",
+            "columnName": "pointer_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pointerIndex",
+            "columnName": "pointer_index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actionIndex",
+            "columnName": "action_index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pointerCount",
+            "columnName": "pointer_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eventTimeUptimeMs",
+            "columnName": "touch_event_time_uptime_ms",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eventTimeUptimeNs",
+            "columnName": "touch_event_time_uptime_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "commonTimestampNs",
+            "columnName": "common_timestamp_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appReceiptTimeUptimeNs",
+            "columnName": "app_receipt_time_uptime_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appReceiptTimeElapsedNs",
+            "columnName": "app_receipt_time_elapsed_ns",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "relativeTimeMs",
+            "columnName": "relative_time_ms",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "x",
+            "columnName": "x",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "y",
+            "columnName": "y",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "touchMajor",
+            "columnName": "touch_major",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "touchMinor",
+            "columnName": "touch_minor",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "size",
+            "columnName": "size",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pressure",
+            "columnName": "pressure",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orientation",
+            "columnName": "orientation",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toolType",
+            "columnName": "tool_type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isHistorical",
+            "columnName": "is_historical",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "historyIndex",
+            "columnName": "history_index",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "row_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_touch_samples_trial_id",
+            "unique": false,
+            "columnNames": [
+              "trial_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_touch_samples_trial_id` ON `${TABLE_NAME}` (`trial_id`)"
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e5ea09a1f6ab9ae6ae93b9033e0d8d3f')"
+    ]
+  }
+}

@@ -2,7 +2,7 @@ package com.lime.rawtouchcollector
 
 /** Версия схемы данных. Меняется вместе с любым изменением состава или смысла полей. */
 public object Schema {
-    public const val VERSION: String = "stage1-1.0.0"
+    public const val VERSION: String = "stage1-1.1.0"
 }
 
 /** Статус завершения попытки */

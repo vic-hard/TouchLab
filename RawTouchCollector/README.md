@@ -6,7 +6,7 @@
 
 - `minSdk 31`, `compileSdk 37`, Kotlin, `explicitApi()`
 - Зависимости: только `androidx.annotation`. Транзитивных в потребителя не приносит.
-- Артефакт: `rawtouchcollector-1.1.0-release.aar`
+- Артефакт: `rawtouchcollector-1.2.0-release.aar`
 
 ---
 

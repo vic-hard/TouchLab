@@ -88,4 +88,24 @@ public object SchemaFields {
     public const val SDK_INT: String = "sdk_int"
     public const val APP_VERSION: String = "app_version"
     public const val AAR_VERSION: String = "aar_version"
+
+    // --- диагностика сессии ---
+    // Счётчики снимаются один раз, после того как сомкнулся барьер endSession, и
+    // означают «за эту сессию», а не «за всё время жизни коллектора».
+    // null в любом из них означает «неизвестно: сессия не была закрыта штатно» —
+    // это не то же самое, что «неприменимо».
+    public const val TRIALS_ACCEPTED: String = "trials_accepted"
+    public const val TRIALS_CONFIRMED: String = "trials_confirmed"
+    public const val QUEUE_OVERFLOWS: String = "queue_overflows"
+    public const val WRITE_FAILURES: String = "write_failures"
+    public const val EVENTS_BEFORE_START: String = "events_before_start"
+    public const val EVENTS_AFTER_END: String = "events_after_end"
+    public const val EVENTS_AFTER_SESSION_CLOSE: String = "events_after_session_close"
+    public const val EVENTS_DISCARDED_AFTER_MULTITOUCH: String =
+        "events_discarded_after_multitouch"
+    public const val IMPLICIT_CANCELS: String = "implicit_cancels"
+    public const val MULTITOUCH_ERRORS: String = "multitouch_errors"
+    public const val TRIALS_WITH_STALE_DISPLAY_PROFILE: String =
+        "trials_with_stale_display_profile"
+    public const val CLOCK_SYNC_FALLBACKS: String = "clock_sync_fallbacks"
 }

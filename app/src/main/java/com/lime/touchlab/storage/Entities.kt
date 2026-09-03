@@ -57,6 +57,25 @@ class SessionEntity(
     @ColumnInfo(name = SchemaFields.CLOCK_SYNC_ID) val clockSyncId: String?,
     @ColumnInfo(name = SchemaFields.SESSION_STATUS) val sessionStatus: String,
     @ColumnInfo(name = SchemaFields.SCHEMA_VERSION) val schemaVersion: String,
+
+    // Счётчики за эту сессию. Заполняются один раз, при штатном закрытии, после
+    // того как сомкнулся барьер. `null` здесь означает «неизвестно: сессия не была
+    // закрыта штатно» — в отличие от остальных null'ов схемы, означающих «неприменимо».
+    @ColumnInfo(name = SchemaFields.TRIALS_ACCEPTED) val trialsAccepted: Long? = null,
+    @ColumnInfo(name = SchemaFields.TRIALS_CONFIRMED) val trialsConfirmed: Long? = null,
+    @ColumnInfo(name = SchemaFields.QUEUE_OVERFLOWS) val queueOverflows: Long? = null,
+    @ColumnInfo(name = SchemaFields.WRITE_FAILURES) val writeFailures: Long? = null,
+    @ColumnInfo(name = SchemaFields.EVENTS_BEFORE_START) val eventsBeforeStart: Long? = null,
+    @ColumnInfo(name = SchemaFields.EVENTS_AFTER_END) val eventsAfterEnd: Long? = null,
+    @ColumnInfo(name = SchemaFields.EVENTS_AFTER_SESSION_CLOSE)
+    val eventsAfterSessionClose: Long? = null,
+    @ColumnInfo(name = SchemaFields.EVENTS_DISCARDED_AFTER_MULTITOUCH)
+    val eventsDiscardedAfterMultitouch: Long? = null,
+    @ColumnInfo(name = SchemaFields.IMPLICIT_CANCELS) val implicitCancels: Long? = null,
+    @ColumnInfo(name = SchemaFields.MULTITOUCH_ERRORS) val multitouchErrors: Long? = null,
+    @ColumnInfo(name = SchemaFields.TRIALS_WITH_STALE_DISPLAY_PROFILE)
+    val trialsWithStaleDisplayProfile: Long? = null,
+    @ColumnInfo(name = SchemaFields.CLOCK_SYNC_FALLBACKS) val clockSyncFallbacks: Long? = null,
 )
 
 @Entity(tableName = "clock_sync", indices = [Index(SchemaFields.SESSION_ID)])
